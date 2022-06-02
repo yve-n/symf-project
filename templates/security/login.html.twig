@@ -18,13 +18,13 @@
 									<div class="text-center">
 										<h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
 									</div>
-									<form class="user">
+									<form method="post" class="user">
 										{% if error %}
 											<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 										{% endif %}
 
 										{% if app.user %}
-											<div class="mb-3">You are logged in as{{ app.user.userIdentifier }},
+											<div class="mb-3">You are logged in as{{ app.user.username }},
 												<a href="{{ path('app_logout') }}">Logout</a>
 											</div>
 										{% endif %}
