@@ -24,21 +24,17 @@
 										{% endif %}
 
 										{% if app.user %}
-											<div class="mb-3">You are logged in as{{ app.user.username }},
+											<div class="mb-3">You are already logged in as {{ app.user.userIdentifier }},
 												<a href="{{ path('app_logout') }}">Logout</a>
 											</div>
 										{% endif %}
 										<div class="form-group">
 											<label for="inputEmail">Email</label>
-											<input
-											type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-user" autocomplete="email" aria-describedby="emailHelp" placeholder="Enter Email Address..." required autofocus>
-										{# <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..."> #}
+											<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-user" autocomplete="email" aria-describedby="emailHelp" placeholder="Enter Email Address..." required autofocus>
 										</div>
 										<div class="form-group">
 											<label for="inputPassword">Password</label>
-											<input
-											type="password" name="password" id="inputPassword" class="form-control form-control-user" autocomplete="current-password" placeholder="Password" required>
-										{# <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password"> #}
+											<input type="password" name="password" id="inputPassword" class="form-control form-control-user" autocomplete="current-password" placeholder="Password" required>
 										</div>
 										<input
 										type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -68,7 +64,7 @@
 										<a class="small" href="forgot-password.html">Forgot Password?</a>
 									</div>
 									<div class="text-center">
-										<a class="small" href="register.html">Create an Account!</a>
+										<a class="small" href="{{path('app_register')}}">Create an Account!</a>
 									</div>
 								</div>
 							</div>
