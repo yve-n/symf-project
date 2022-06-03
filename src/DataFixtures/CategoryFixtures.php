@@ -10,9 +10,13 @@ class CategoryFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        $parent = new Category();
+        $parent->setName('Hommes');
+        $parent->setSlug('hommes');
+        $manager->persist($parent);
+
         $category = new Category();
-        $category->setName('Hommes');
-        $category->setSlug('hommes');
+        $category->setName('Pantalons')->setSlug('pantalons')->setParent($parent);
 
         $manager->persist($category);
         $manager->flush();
