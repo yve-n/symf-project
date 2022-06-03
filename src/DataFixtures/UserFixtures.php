@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -27,6 +28,23 @@ class UserFixtures extends Fixture
         ->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($admin);
+        //$faker = Factory::create('fr_FR'); dis à faker de generer des data en français
+        $faker = Factory::create('fr_FR');
+        for($i=1; $i <=10; $i++){
+            $user = new User();
+            $user
+            ->setEmail($faker->email)
+            ->setLastName($faker->lastName)
+            ->setFirstName($faker->firstName)
+            ->setAddress($faker->streetAddress)
+            ->setCity($faker->city)
+            ->setZipCode(str_replace(" ","",$faker->postcode))
+            ->setCountry('France')
+            ->setPassword($this->passwordEncoder->hashPassword($admin, 'password')) ;  
+            
+            // dump($user) equivaut à console.log($user);
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }
