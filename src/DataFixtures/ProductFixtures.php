@@ -24,12 +24,13 @@ class ProductFixtures extends Fixture
                 ->setPrice($faker->randomFloat(2,10,150))
                 ->setQuantity($faker->numberBetween(3,10));
                 
+                //recuperer les references de nos categories
                 $category = $this->getReference('category-' . rand(1,6));
                 $product->setCategory($category);
 
                 /**addReference permet d'ajouter une reference à chaque produit 
                  * et throw une exception si la reference existe déjà */
-                
+
                 $this->addReference('product-'. $p, $product); 
                 
             $manager->persist($product);

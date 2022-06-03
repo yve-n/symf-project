@@ -17,7 +17,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
 
         for($img = 1; $img <=15 ; $img++){
             $image = new Image();
-            $image->setName($faker->image(null, 640,480));
+            $image->setName($faker->imageUrl(640,480));
 
             $image->setProduct(
                 $this->getReference('product-'. rand(1,10))
