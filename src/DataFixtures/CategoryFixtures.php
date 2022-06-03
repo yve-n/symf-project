@@ -13,17 +13,24 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $parent = new Category();
-        $parent->setName('Hommes');
-        $parent->setSlug($this->slugger->slug($parent->getName())->lower());
-        $manager->persist($parent);
+        $parent = $this->generateCategory('Hommes', null, $manager);
+        $this->generateCategory('Pantalons Jeans', $parent,  $manager);
+        $this->generateCategory('Chemises', $parent,  $manager);
 
-        $category = new Category();
-        $category->setName('Pantalons Jeans')
-        ->setSlug($this->slugger->slug($category->getName())->lower())
-        ->setParent($parent);
+        $parent = $this->generateCategory('Femmes', null, $manager);
+        $this->generateCategory('Robes', $parent,  $manager);
+        $this->generateCategory('Chaussures', $parent,  $manager);
 
-        $manager->persist($category);
         $manager->flush();
+    }
+    private function generateCategory(string $name, Category $parent = null , ObjectManager $manager)
+    {
+        $category = new Category();
+        $category
+            ->setName($name)
+            ->setSlug($this->slugger->slug($category->getName())->lower())
+            ->setParent($parent);
+        $manager->persist($category);
+        return $category;
     }
 }
