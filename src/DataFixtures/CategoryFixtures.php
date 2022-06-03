@@ -3,11 +3,14 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoryFixtures extends Fixture
 {
+    public function __construct( private SluggerInterface $slugger){}
+
     public function load(ObjectManager $manager): void
     {
         $parent = new Category();
