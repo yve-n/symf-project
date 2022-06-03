@@ -15,11 +15,13 @@ class CategoryFixtures extends Fixture
     {
         $parent = new Category();
         $parent->setName('Hommes');
-        $parent->setSlug('hommes');
+        $parent->setSlug($this->slugger->slug($parent->getName())->lower());
         $manager->persist($parent);
 
         $category = new Category();
-        $category->setName('Pantalons')->setSlug('pantalons')->setParent($parent);
+        $category->setName('Pantalons Jeans')
+        ->setSlug($this->slugger->slug($category->getName())->lower())
+        ->setParent($parent);
 
         $manager->persist($category);
         $manager->flush();
