@@ -42,7 +42,7 @@ class UserFixtures extends Fixture
             ->setCountry('France')
             ->setPassword($this->passwordEncoder->hashPassword($admin, 'password')) ;  
             
-            // dump($user) equivaut à console.log($user);
+            //dump($user) equivaut à console.log($user);
             $manager->persist($user);
         }
         $manager->flush();
