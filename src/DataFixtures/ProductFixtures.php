@@ -26,6 +26,11 @@ class ProductFixtures extends Fixture
                 
                 $category = $this->getReference('category-' . rand(1,6));
                 $product->setCategory($category);
+
+                /**addReference permet d'ajouter une reference à chaque produit 
+                 * et throw une exception si la reference existe déjà */
+                
+                $this->addReference('product-'. $p, $product); 
                 
             $manager->persist($product);
         }

@@ -33,6 +33,9 @@ class CategoryFixtures extends Fixture
             ->setParent($parent);
         $manager->persist($category);
 
+        /**addReference permet d'ajouter une reference à chaque produit 
+         * et throw une exception si la reference existe déjà */
+        
         $this->addReference('category-' . $this->counter, $category); //ajout d'une reference pour chaque categorie
         $this->counter++;
 
