@@ -23,11 +23,17 @@
 						<div
 							class="card h-100">
 							<!-- Sale badge-->
-							<div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+							{% if product.soldPrice %}
+								<div class="badge text-white position-absolute" style="top: 0.1rem; right: 0.5rem">
+									<span class="spinner-grow spinner-grow-sm text-danger" role="status" aria-hidden="true"></span>
+									soon out of stock
+								</div>
+								{# <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div> #}
+							{% endif %}
 							<!-- Product image-->
 							{% if product.images[0] ?? null %}
 								<img class="card-img-top" src="{{product.images[0].name}}" alt="image du produit {{product.name}}"/>
-							 {% else %} 
+							{% else %}
 								<img class="card-img-top" src="https://via.placeholder.com/640x480.png/0099ee?text=reprehenderit" alt="image du produit {{product.name}}"/>
 							{% endif %}
 							<!-- Product details-->
@@ -38,23 +44,29 @@
 									<h5 class="fw-bolder">{{product.name}}</h5>
 									<!-- Product reviews-->
 									<div class="d-flex justify-content-center small text-warning mb-2">
-										<div class="bi-star-fill">aaaa</div>
-										<div class="bi-star-fill">bbb</div>
+										<div class="bi-star-fill"></div>
+										<div class="bi-star-fill"></div>
 										<div class="bi-star-fill"></div>
 										<div class="bi-star-fill"></div>
 										<div class="bi-star-fill"></div>
 									</div>
 									<!-- Product price-->
-									<span class="text-muted text-decoration-line-through">{{product.price}}</span>
-									$20.00
+									{% if product.soldPrice ?? null %}
+										<span class="text-muted text-decoration-line-through">{{product.price}}</span>
+										{{product.soldPrice}}
+									{% else %}
+										<span class="text-muted text-decoration">{{product.price}}</span>
+									{% endif %}
 								</div>
 							</div>
 							<!-- Product actions-->
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div style="display:flex; justify-content:space-evenly;">
 								<div class="text-center">
 									<a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
 								</div>
-								{# <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{path('app_products_details', {'slug' :})}}">see more...</a></div> #}
+								<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{path('app_products_details', {'slug' : product.slug})}}">see more...</a></div>
+                            </div>
 							</div>
 						</div>
 					</div>
