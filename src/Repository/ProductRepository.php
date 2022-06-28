@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +39,52 @@ class ProductRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**return products[] */
+    public function findProductsOfcategory( Category $category , int $id): array
+   {
+       return $this->createQueryBuilder('p')
+           ->Where('p.category = :val')
+           ->andWhere('p.id != :id')
+           ->setParameter('val', $category)
+           ->setParameter('id' , $id)
+            ->setMaxResults(1)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+   /** autre manière de faire
+    *public function findProductsOfcategory( Product $product): array
+    *{
+    *    return $this->createQueryBuilder('p')
+    *        ->Where('p.category = :category')
+    *        ->andWhere('p.id != :id')
+    *        ->setParameter('category', $product->getCategory())
+    *        ->setParameter('id' , $product->getId())
+    *       ->orderBy('p.id', 'ASC')
+    *         ->setMaxResults(1)
+    *        ->getQuery()
+    *        ->getResult()
+    *    ;
+    *  }
+    * 
+    */
+//    public function findProducts(Category $category , int $id) : array
+//    {
+//     $entityManager = $this->getEntityManager();
+//     $query = $entityManager->createQuery(
+//         'SELECT p 
+//         FROM App\Entity\Product p
+//         WHERE p.category = :category
+//         AND p.id = :id
+//         ORDER BY p.id ASC
+//         Limit 2 '
+//     )->setParameter('category', $category, 'id', $id);
+//     return $query->getResult();
+//    }
+   
+
+
 
 //    /**
 //     * @return Product[] Returns an array of Product objects
