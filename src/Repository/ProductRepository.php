@@ -41,18 +41,18 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**return products[] */
-    public function findProductsOfcategory( Category $category , int $id): array
-   {
-       return $this->createQueryBuilder('p')
-           ->Where('p.category = :val')
-           ->andWhere('p.id != :id')
-           ->setParameter('val', $category)
-           ->setParameter('id' , $id)
-            ->setMaxResults(1)
-           ->getQuery()
-           ->getResult()
-       ;
-   }
+//     public function findProductsOfcategory( Category $category , int $id): array
+//    {
+//        return $this->createQueryBuilder('p')
+//            ->Where('p.category = :val')
+//            ->andWhere('p.id != :id')
+//            ->setParameter('val', $category)
+//            ->setParameter('id' , $id)
+//             ->setMaxResults(1)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
    /** autre manière de faire
     *public function findProductsOfcategory( Product $product): array
     *{
@@ -68,21 +68,37 @@ class ProductRepository extends ServiceEntityRepository
     *    ;
     *  }
     * 
-    */
-//    public function findProducts(Category $category , int $id) : array
+    */ /**utilisation de DQL */
+   public function findProductsWithSameCategory(Category $category , int $id) : array
+   {
+    $entityManager = $this->getEntityManager();
+    $query = $entityManager->createQuery(
+        'SELECT p 
+        FROM App\Entity\Product p
+        WHERE p.category = :category
+        AND p.id != :id
+        ORDER BY p.id ASC'
+    )->setParameter('category', $category)
+     ->setParameter('id', $id)
+     ->setMaxResults(2);
+    return $query->getResult();
+   }
+/**utilisation de sql */
+//    public function findProductsInSameCategory(Product $product)
 //    {
-//     $entityManager = $this->getEntityManager();
-//     $query = $entityManager->createQuery(
-//         'SELECT p 
-//         FROM App\Entity\Product p
-//         WHERE p.category = :category
-//         AND p.id = :id
-//         ORDER BY p.id ASC
-//         Limit 2 '
-//     )->setParameter('category', $category, 'id', $id);
-//     return $query->getResult();
+//     $conn = $this->getEntityManager()->getConnection();
+//     $sql = 'SELECT * from product p
+//     WHERE p.category_id = :categoryId 
+//     AND p.id = :productId
+//     ORDER BY p.id ASC LIMIT 2';
+    
+//     $stmt = $conn->prepare($sql);
+//     $result = $stmt->executeQuery([
+//         'categoryId' => $product->getCategory()->getId(),
+//         'productId'  => $product->getId()
+//     ]);
+//     return $result->fetchAllAssociative();
 //    }
-   
 
 
 

@@ -25,7 +25,7 @@ class ProductController extends AbstractController
     #[Route('/{slug}', name: 'details')]
     public function details( Product $product): Response
     {
-        $relatedProducts = $this->productRepository->findProductsOfcategory($product->getCategory(), $product->getId());
+        $relatedProducts = $this->productRepository->findProductsWithSameCategory($product->getCategory(), $product->getId());
        
         // dd($relatedProducts);
         return $this->render('product/details.html.twig', compact('product', 'relatedProducts'));
