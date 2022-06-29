@@ -131,10 +131,74 @@
                             </div>
                         </div>
                     </div>
-
+	  <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Last categories</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Slug</th>
+                                            <th>Parent</th>
+											<th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                           <th>Name</th>
+                                            <th>Slug</th>
+                                            <th>Parent</th>
+											<th>Actions</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+									{% for category in categories %}
+                                        <tr>
+                                            <td>{{category.name}}</td>
+                                            <td>{{category.slug}} </td>
+											<td>{{ category.parent ?? null  ? category.parent.name : '<span class="badge rounded-pill text-bg-dark"> categorie Parente</span>' }}  </td>
+											<td><a class="btn btn-info" href="{{path('admin_dashboard',{'id':category.id})}}">Edit</a></td>
+										</tr>
+									{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+	<div class="card shadow mb-4">
+		<div class="card-header py-3">
+			<h6 class="m-0 font-weight-bold text-primary">Last users</h6>
+		</div>
+		<div class="card-body">
+			<div class="row">
+			{% for user in users %}
+				<div class="col-xl-3 col-md-6 mb-4">
+					<div class="card border-left-info shadow h-100 py-2">
+						<div class="card-body">
+							<div class="row no-gutters align-items-center">
+								<div class="col mr-2">
+									<div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+										{{user.firstName}} {{user.lastName}}</div>
+									<div class="h5 mb-0 font-weight-bold text-gray-800">{{user.email}}</div>
+									<div class="h6 mb-0 font-weight-bold text-gray-600">{{user.address}} {{user.zipCode}} {{user.city}} {{user.country}}</div>
+								</div>
+								<div class="col-auto">
+									<i class="fas fa-solid fa-users fa-2x text-gray-300"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+	</div>
+	
 	<!-- Content Row -->
-	<div
-		class="row">
+	<div class="row">
 
 		<!-- Content Column -->
 		<div
@@ -249,9 +313,7 @@
 
 		</div>
 
-		<div
-			class="col-lg-6 mb-4">
-
+		<div class="col-lg-6 mb-4">
 			<!-- Illustrations -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
