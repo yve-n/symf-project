@@ -83,6 +83,19 @@ class ProductRepository extends ServiceEntityRepository
      ->setMaxResults(2);
     return $query->getResult();
    }
+
+   public function findLastProducts() : array
+   {
+    return $this->createQueryBuilder('p')
+      ->orderBy('p.id', 'DESC')
+      ->setMaxResults(6)
+      ->getQuery()
+      ->getResult()
+    ;
+   }
+
+
+
 /**utilisation de sql */
 //    public function findProductsInSameCategory(Product $product)
 //    {
