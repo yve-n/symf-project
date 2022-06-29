@@ -18,11 +18,12 @@ class DashBoardController extends AbstractController
     UserRepository $userRepository,
     OrderRepository $orderRepository): Response
     {
+        $limit = 6;
         $categoryCount = $categoryRepository->count([]);
         $productCount = $productRepository->count([]);
         $orderCount = $orderRepository->count([]);
         $userCount = $userRepository->count([]);
-        $lastProduct = $productRepository->findLastProducts();
+        $lastProduct = $productRepository->getLastProducts($limit);
         return $this->render('admin/dashboard/index.html.twig', compact(
             'categoryCount',
             'productCount',

@@ -100,6 +100,7 @@
                                             <th>Name</th>
                                             <th>Price</th>
                                             <th>Quantity</th>
+											<th>Sold price</th>
                                             <th>Category</th>
 											<th>Actions</th>
                                         </tr>
@@ -109,6 +110,7 @@
                                             <th>Name</th>
                                             <th>Price</th>
                                             <th>Quantity</th>
+											<th>Sold price</th>
                                             <th>Category</th>
 											<th>Actions</th>
                                         </tr>
@@ -117,8 +119,9 @@
 									{% for product in lastProduct %}
                                         <tr>
                                             <td>{{product.name}}</td>
-                                            <td>{{product.price}}</td>
+                                            <td>{{product.price}} €</td>
                                             <td>{{product.quantity}}</td>
+											<td>{{product.soldPrice|default('-')}}</td>
                                             <td>{{product.category.name}}</td>
 											<td><a class="btn btn-info" href="{{path('admin_dashboard',{'id':product.id})}}">Edit</a></td>
 										</tr>
