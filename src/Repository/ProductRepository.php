@@ -87,7 +87,7 @@ class ProductRepository extends ServiceEntityRepository
    public function getLastProducts(int $limit) : array
    {
     return $this->createQueryBuilder('p')
-      ->orderBy('p.createdAt', 'DESC')
+      ->orderBy('p.created_at', 'DESC')
       ->setMaxResults($limit)
       ->getQuery()
       ->getResult()

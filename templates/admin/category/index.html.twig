@@ -1,0 +1,59 @@
+{% extends '_layouts/admin.html.twig'%}
+
+{% block title %}Categories{% endblock %}
+{% block h1 %} Manage Categories{% endblock %}
+
+{% block body %}
+{% if categories is empty %}
+
+<h1 class="m-0 font-weight-bold text-primary">Vous n'avez aucune categorie! ajoutez en!</h1>
+
+{% else %}
+
+  <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">All categories</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Slug</th>
+                                            <th>Parent</th>
+											<th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                           <th>Name</th>
+                                            <th>Slug</th>
+                                            <th>Parent</th>
+											<th>Actions</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+									{% for category in categories %}
+                                        <tr>
+                                            <td>{{category.name}}</td>
+                                            <td>{{category.slug}} </td>
+											<td>{{ category.parent ?? null  ? category.parent.name : '<span class="badge rounded-pill text-bg-dark"> categorie Parente</span>' }}  </td>
+											<td>
+                                             <div class="d-flex mt-3">
+                                                <a class="btn btn-info" href="{{path('admin_dashboard',{'id':category.id})}}">Edit</a>
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="_token" value="{{csrf_token('delete'~ category.id)}}">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                            </td>
+										</tr>
+									{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+    </div>
+    {% endif %}
+{% endblock %}

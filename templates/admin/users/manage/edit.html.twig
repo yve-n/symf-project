@@ -1,0 +1,30 @@
+{% extends '_layouts/admin.html.twig'%}
+
+{% block title %} Edit {% endblock %}
+{% block h1 %} Edit user{% endblock %}
+{% block body %}
+	<div class="container">
+		<div class="pt-5 mb-5">
+            <h3>modifier l'utilisateur</h3>
+            <hr>
+        </div>
+        {{form_start(formEdit)}}
+        <div class=" mb-3">
+            {{form_row(formEdit.name)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(formEdit.description)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(formEdit.price)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(formEdit.quantity)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(formEdit.soldPrice)}}
+        </div>
+        <button type="submit" class="my-3 col btn btn-primary">Go</button>
+        {{form_end(formEdit)}}
+	</div>
+{% endblock %}

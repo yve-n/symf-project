@@ -1,4 +1,76 @@
 {% extends '_layouts/admin.html.twig'%}
 {% block title %}Users{% endblock %}
-{% block h1 %} Manage users{% endblock %}
-{% block body %}contenu{% endblock %}
+{% block h1 %}Manage users{% endblock %}
+{% block body %}
+	{% if users is empty %}
+        	<h6 class="m-0 font-weight-bold text-primary">Vous n'avez pas d'utilisateur</h6>
+			<a class="btn btn-info" href="{{path('admin_users_add')}}">Add User</a>
+
+		{% else %}
+
+			<div class="card shadow mb-4">
+				<div class="card-header py-3">
+					<h6 class="m-0 font-weight-bold text-primary">All users</h6>
+					<a class="btn btn-info" href="{{path('admin_users_add')}}">Add User</a>
+
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-bordered  table-striped" id="dataTable" width="100%" cellspacing="0">
+							<thead class="table-secondary">
+								<tr>
+									<th>firstName</th>
+									<th>lastName</th>
+									<th>Email</th>
+									<th>Address</th>
+									<th>Zip code</th>
+                                    <th>City</th>
+                                    <th>country</th>
+                                    <th>Date d'ajout</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<tfoot class="table-secondary">
+								<tr>
+									<th>firstName</th>
+									<th>lastName</th>
+									<th>Email</th>
+									<th>Address</th>
+									<th>Zip code</th>
+                                    <th>City</th>
+                                    <th>country</th>
+                                    <th>Date d'ajout</th>
+									<th>Actions</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								{% for user in users %}
+									<tr>
+										<td>{{user.firstName}}</td>
+                                        <td>{{user.lastName}}</td>
+                                        <td>{{user.email}}</td>
+                                        <td>{{user.address}}</td>
+                                        <td>{{user.zipCode}}</td>
+                                        <td>{{user.city}}</td>
+                                        <td>{{user.country}}</td>
+                                        <td>{{user.createdAt|date('Y-m-d')}}</td>
+										<td>
+											<div class="d-flex mt-3">
+                                                <a class="btn btn-info" href="#">Details</a>
+												<a class="btn btn-info" href="{{path('admin_users_edit',{'id':user.id})}}">Edit</a>
+                                                <form action="" method="post">
+                                                    <input type="hidden" name="_token" value="{{csrf_token('delete'~ user.id)}}">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+	{% endif %}
+
+{% endblock %}
