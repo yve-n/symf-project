@@ -63,7 +63,7 @@
 							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div style="display:flex; justify-content:space-evenly;">
 								<div class="text-center">
-									<a class="btn btn-outline-dark mt-auto" href="#">Add to cart</a>
+									<a class="btn btn-outline-dark mt-auto" href="{{path('app_cart_add',{'id':product.id})}}">Add to cart</a>
 								</div>
 								<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{path('app_products_details', {'slug' : product.slug})}}">see more...</a></div>
                             </div>
