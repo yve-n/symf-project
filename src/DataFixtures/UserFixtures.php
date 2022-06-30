@@ -30,7 +30,7 @@ class UserFixtures extends Fixture
         $manager->persist($admin);
         //$faker = Factory::create('fr_FR'); dis à faker de generer des data en français
         $faker = Factory::create('fr_FR');
-        for($i=1; $i <=10; $i++){
+        for($u=1; $u <=10; $u++){
             $user = new User();
             $user
             ->setEmail($faker->email)
@@ -42,6 +42,7 @@ class UserFixtures extends Fixture
             ->setCountry('France')
             ->setPassword($this->passwordEncoder->hashPassword($admin, 'password')) ;  
             
+            $this->addReference('user-'. $u, $user); 
             //dump($user) equivaut à console.log($user);
             $manager->persist($user);
         }

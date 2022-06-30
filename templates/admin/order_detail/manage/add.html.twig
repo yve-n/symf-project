@@ -1,0 +1,22 @@
+{% extends '_layouts/admin.html.twig'%}
+
+{% block title %} Add {% endblock %}
+{% block h1 %} Add order detaail{% endblock %}
+{% block body %}
+	<div class="container">
+		<div class="pt-5 mb-5">
+            <h3>Ajouter les details d'une commande</h3>
+            <hr>
+        </div>
+        {{form_start(addForm)}}
+        <div class=" mb-3">
+            {{form_row(addForm.price)}}
+        </div>
+        <div class=" mb-3">
+            {{form_row(addForm.quantity)}}
+        </div>
+
+        <button type="submit" class="my-3 col btn btn-primary">OK</button>
+        {{form_end(addForm)}}
+	</div>
+{% endblock %}

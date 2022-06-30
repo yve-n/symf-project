@@ -6,12 +6,13 @@
 {% block body %}
 {% if orders is empty  %}
     <h2 class="m-0 font-weight-bold text-primary">Vous n'avez aucune commande</h2>
-    <a class="btn btn-info" href="{{path('admin_dashboard')}}">Add Order</a>
+    <a class="btn btn-info" href="{{path('admin_orders_add')}}">Add Order</a>
 
 {% else %}
       <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">All orders</h6>
+                            <a class="btn btn-info mr-3" href="{{path('admin_orders_add')}}">Add Order</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -39,13 +40,13 @@
                                         <tr>
                                             <td>{{order.id}}</td>
                                             <td>{{order.reference}} </td>
-                                            <td>{{order.createdAt}}</td>
+                                            <td>{{order.createdAt|date('Y-m-d H:i:s')}}</td>
                                             <td>{{order.user.email}}</td>
                                             <td>
-                                             <div class="d-flex mt-3">
-                                                <a class="btn btn-info" href="{{path('admin_dashboard',{'id':order.id})}}">Edit</a>
-                                                <a class="btn btn-primary" href="{{path('admin_dashboard',{'id':order.id})}}">Details</a>
-                                                <form action="" method="post">
+                                            <div class="d-flex mt-3 justify-content-center">
+                                                <a class="btn btn-info mr-3" href="{{path('admin_orders_edit',{'id':order.id})}}">Edit</a>
+                                                <a class="btn btn-primary mr-3" href="{{path('admin_order_detail_order',{'id':order.id})}}">Details</a>
+                                                <form action="{{path('admin_orders_delete',{'id':order.id})}}" method="post">
                                                     <input type="hidden" name="_token" value="{{csrf_token('delete'~ order.id)}}">
                                                     <button class="btn btn-danger">Delete</button>
                                                 </form>

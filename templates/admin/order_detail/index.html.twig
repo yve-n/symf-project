@@ -1,0 +1,63 @@
+{% extends '_layouts/admin.html.twig'%}
+
+{% block title %}Order Details{% endblock %}
+{% block h1 %} Manage Orders details{% endblock %}
+
+{% block body %}
+{% if orderDetails is empty  %}
+    <h2 class="m-0 font-weight-bold text-primary">Vous n'avez aucune donnée</h2>
+    <a class="btn btn-info" href="{{path('admin_order_detail_add')}}">Add Order Details</a>
+
+{% else %}
+      <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">All orders</h6>
+                            <a class="btn btn-info mr-3" href="{{path('admin_order_detail_add')}}">Add Order Details</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+											<th>Product</th>
+                                            <th>Order</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+											<th>Product</th>
+                                            <th>Order</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+									{% for orderDetail in orderDetails %}
+                                        <tr>
+                                            <td>{{orderDetail.price}} € </td>
+                                            <td>{{orderDetail.quantity}}</td>
+                                            <td>{{orderDetail.order.reference}}</td>
+                                            <td>{{orderDetail.product.name}}</td>
+                                            <td>
+                                            <div class="d-flex mt-3 justify-content-center">
+                                                <a class="btn btn-info mr-3" href="{{path('admin_order_detail_edit',{'id':orderDetail.order.id})}}">Edit</a>
+                                                <form action="{{path('admin_order_detail_delete',{'id':orderDetail.order.id})}}" method="post">
+                                                    <input type="hidden" name="_token" value="{{csrf_token('delete'~ orderDetail.order.id)}}">
+                                                    <button class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                            </td>
+										</tr>
+									{% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+    </div>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends '_layouts/admin.html.twig'%}
+
+{% block title %} Edit {% endblock %}
+{% block h1 %} Edit order{% endblock %}
+{% block body %}
+	<div class="container">
+		<div class="pt-5 mb-5">
+            <h3>modifier les détails d'une commande</h3>
+            <hr>
+        </div>
+        {{form_start(formEdit)}}
+        <div class=" mb-3">
+            {{form_row(formEdit.price)}}
+        </div>
+        <div class=" mb-3">
+            {{form_row(formEdit.quantity)}}
+        </div>
+        <button type="submit" class="my-3 col btn btn-primary">OK</button>
+        {{form_end(formEdit)}}
+	</div>
+{% endblock %}

@@ -73,4 +73,8 @@ class OrderDetail
 
         return $this;
     }
+
+    public function getTotal(){
+        return $this->price * $this->quantity;
+    }
 }
