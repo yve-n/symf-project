@@ -7,12 +7,15 @@
 {% if categories is empty %}
 
 <h1 class="m-0 font-weight-bold text-primary">Vous n'avez aucune categorie! ajoutez en!</h1>
+<a class="btn btn-primary" href="{{path('admin_category_add')}}">Add category</a>
 
 {% else %}
 
   <div class="card shadow mb-4">
-                        <div class="card-header py-3">
+                        <div class="card-header py-3 d-flex justify-content-between">
                             <h6 class="m-0 font-weight-bold text-primary">All categories</h6>
+                            <a class="btn btn-primary" href="{{path('admin_category_add')}}">Add Category</a>
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -40,9 +43,9 @@
                                             <td>{{category.slug}} </td>
 											<td>{{ category.parent ?? null  ? category.parent.name : '<span class="badge rounded-pill text-bg-dark"> categorie Parente</span>' }}  </td>
 											<td>
-                                             <div class="d-flex mt-3">
-                                                <a class="btn btn-info" href="{{path('admin_dashboard',{'id':category.id})}}">Edit</a>
-                                                <form action="" method="post">
+                                             <div class="d-flex mt-3 justify-content-center">
+                                                <a class="btn btn-info mr-3" href="{{path('admin_category_edit',{'id':category.id})}}">Edit</a>
+                                                <form action="{{path('admin_category_delete',{'id':category.id})}}" method="post">
                                                     <input type="hidden" name="_token" value="{{csrf_token('delete'~ category.id)}}">
                                                     <button class="btn btn-danger">Delete</button>
                                                 </form>

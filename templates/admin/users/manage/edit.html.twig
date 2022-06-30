@@ -8,23 +8,38 @@
             <h3>modifier l'utilisateur</h3>
             <hr>
         </div>
-        {{form_start(formEdit)}}
+        {{form_start(EditUser)}}
         <div class=" mb-3">
-            {{form_row(formEdit.name)}}
+            {{form_row(EditUser.lastName)}}
         </div>
         <div class="mb-3">
-            {{form_row(formEdit.description)}}
+            {{form_row(EditUser.firstName)}}
         </div>
         <div class="mb-3">
-            {{form_row(formEdit.price)}}
+            {{form_row(EditUser.email)}}
         </div>
         <div class="mb-3">
-            {{form_row(formEdit.quantity)}}
+            {{form_row(EditUser.address)}}
         </div>
         <div class="mb-3">
-            {{form_row(formEdit.soldPrice)}}
+            {{form_row(EditUser.zipCode)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(EditUser.city)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(EditUser.country)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(EditUser.plainPassword)}}
+        </div>
+        <div class="mb-3">
+            {{form_row(EditUser.roles)}}
+        </div>
+         <div class="mb-3">
+            {{form_row(EditUser.rgpdConsent)}}
         </div>
         <button type="submit" class="my-3 col btn btn-primary">Go</button>
-        {{form_end(formEdit)}}
+        {{form_end(EditUser)}}
 	</div>
 {% endblock %}

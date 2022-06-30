@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -61,11 +63,11 @@ class RegistrationFormType extends AbstractType
                     'placeholder' => 'city'
                 ]
             ])
-            ->add('country' , TextType::class, [
+            ->add('country' , CountryType::class, [
                 'label' => false ,
+                'placeholder' => 'country',
                 'attr' => [
-                    'class' => 'form-control-user',
-                    'placeholder' => 'country'
+                    'class' => 'form-control',
                 ]
             ])
             ->add('rgpdConsent', CheckboxType::class, [
@@ -97,6 +99,15 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+            ])
+            ->add('roles', ChoiceType::class,[
+                'label' => 'Rôles',
+                'choices' =>[
+                    'admin' => 'ROLE_ADMIN',
+                    'user'  => 'ROLE_USER'
+                ],
+                'expanded' => true,
+                'multiple' => true,
             ])
         ;
     }

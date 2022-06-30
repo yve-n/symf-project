@@ -3,15 +3,16 @@
 {% block h1 %}Manage users{% endblock %}
 {% block body %}
 	{% if users is empty %}
-        	<h6 class="m-0 font-weight-bold text-primary">Vous n'avez pas d'utilisateur</h6>
-			<a class="btn btn-info" href="{{path('admin_users_add')}}">Add User</a>
-
+			<div class="d-flex justify-content-between">
+        		<h6 class="m-0 font-weight-bold text-primary">Vous n'avez pas d'utilisateur</h6>
+				<a class="btn btn-info" href="{{path('admin_users_add')}}">Add User</a>
+			</div>
 		{% else %}
 
 			<div class="card shadow mb-4">
-				<div class="card-header py-3">
+				<div class="card-header py-3 d-flex justify-content-between">
 					<h6 class="m-0 font-weight-bold text-primary">All users</h6>
-					<a class="btn btn-info" href="{{path('admin_users_add')}}">Add User</a>
+					<a class="btn btn-primary" href="{{path('admin_users_add')}}">Add User</a>
 
 				</div>
 				<div class="card-body">
@@ -26,6 +27,7 @@
 									<th>Zip code</th>
                                     <th>City</th>
                                     <th>country</th>
+									<th>Rôles</th>
                                     <th>Date d'ajout</th>
 									<th>Actions</th>
 								</tr>
@@ -39,6 +41,7 @@
 									<th>Zip code</th>
                                     <th>City</th>
                                     <th>country</th>
+									<th>Rôles</th>
                                     <th>Date d'ajout</th>
 									<th>Actions</th>
 								</tr>
@@ -53,12 +56,16 @@
                                         <td>{{user.zipCode}}</td>
                                         <td>{{user.city}}</td>
                                         <td>{{user.country}}</td>
+										<td>{% for role in user.roles %}
+											<span class="badge bg-primary text-white">{{role}}</span>
+										{% endfor %}</td>
+										
                                         <td>{{user.createdAt|date('Y-m-d')}}</td>
 										<td>
-											<div class="d-flex mt-3">
-                                                <a class="btn btn-info" href="#">Details</a>
-												<a class="btn btn-info" href="{{path('admin_users_edit',{'id':user.id})}}">Edit</a>
-                                                <form action="" method="post">
+											<div class="d-flex mt-3 justify-content-center">
+                                                <a class="btn btn-info mr-3" href="#">Details</a>
+												<a class="btn btn-info mr-3" href="{{path('admin_users_edit',{'id':user.id})}}">Edit</a>
+                                                <form action="{{path('admin_users_delete',{'id':user.id})}}" method="post">
                                                     <input type="hidden" name="_token" value="{{csrf_token('delete'~ user.id)}}">
                                                     <button class="btn btn-danger">Delete</button>
                                                 </form>

@@ -7,6 +7,7 @@ use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,7 +34,6 @@ class UserController extends AbstractController{
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
             $user->setPassword(
             $userPasswordHasher->hashPassword(
                     $user,
@@ -42,13 +42,8 @@ class UserController extends AbstractController{
             );
             $entityManager->persist($user);
             $entityManager->flush();
-            // do anything else you need here, like send an email
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
+            return $this->redirectToRoute('admin_users_index');
         }
         return $this->render('admin/users/manage/add.html.twig', [
             'registrationForm' => $form->createView(),
@@ -56,18 +51,36 @@ class UserController extends AbstractController{
     }
 
     #[Route('/edit/{id}', name: 'edit')]
-    public function editUser(UserRepository $userRepository): Response {
+    public function editUser(UserRepository $userRepository, Request $request, ManagerRegistry $doctrine): Response {
+        $user = $userRepository->findOneBy(['id' => $request->get('id')]);
+        
+        if($user){
+            $formEdit = $this->createForm(RegistrationFormType::class, $user);
+            $formEdit->handleRequest($request);   
+            if($formEdit->isSubmitted() && $formEdit->isValid()){
+                $em = $doctrine->getManager();
+                $em->persist($formEdit->getData());
+                $em->flush();
+                return $this->redirectToRoute('admin_users_index');
+            } 
+        }else{
+            return $this->redirectToRoute('admin_dashboard');
+        }
 
-        $users = $userRepository->findAll();
-        return $this->render('admin/users/manage/edit.html.twig', compact('users'));
-
+        return $this->render('admin/users/manage/edit.html.twig',[
+            'EditUser' => $formEdit->createView()
+        ]);
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function deleteUser(UserRepository $userRepository): Response {
+    public function deleteUser(UserRepository $userRepository, Request $request, ManagerRegistry $doctrine): Response {
 
-        $users = $userRepository->findAll();
-        return $this->render('admin/users/index.html.twig', compact('users'));
-
+        $user = $userRepository->findOneBy(['id' => $request->get('id')]);
+        if($user){
+            $em = $doctrine->getManager();
+            $userRepository->remove($user);
+            $em->flush();
+            return $this->redirectToRoute('admin_users_index');
+        }
     }
 }
