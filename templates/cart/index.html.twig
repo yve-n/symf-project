@@ -125,7 +125,7 @@
             				<div class="flex justify-center items-center">
             					<div class="pr-8 flex ">
             						<a href="{{path('app_cart_remove',{'id':item.product.id})}}"><span class="font-semibold">-</span></a>
-            						<input type="text" class="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2" value="1">
+            						<input type="text" class="focus:outline-none bg-gray-100 border h-6 w-8 rounded text-sm px-2 mx-2" value="{{item.quantity}}">
             						<a href="{{path('app_cart_add',{'id':item.product.id})}}"><span class="font-semibold">+</span></a>
             					</div>
 

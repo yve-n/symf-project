@@ -60,13 +60,16 @@
 								</div>
 							</div>
 							<!-- Product actions-->
-							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div style="display:flex; justify-content:space-evenly;">
-								<div class="text-center">
-									<a class="btn btn-outline-dark mt-auto" href="{{path('app_cart_add',{'id':product.id})}}">Add to cart</a>
+							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent ">
+								<div class="text-center pb-3"><a class="btn btn-outline-dark mt-auto" href="{{path('app_products_details', {'slug' : product.slug})}}">see more...</a></div>
+								<div>
+									<form action="{{path('app_cart_add',{'id':product.id})}}" method="get">
+										<div class="input-group">
+											<input type="text"  class="form-control" value="" name="quantity">
+											<button class="btn btn-info" type="submit">Add to cart</button>  
+										</div>
+									</form>
 								</div>
-								<div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{path('app_products_details', {'slug' : product.slug})}}">see more...</a></div>
-                            </div>
 							</div>
 						</div>
 					</div>

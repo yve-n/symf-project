@@ -29,13 +29,16 @@
 						{% endif %}
 					</div>
 					<p class="lead">{{product.description}}</p>
+
+					<form action="{{path('app_cart_add',{'id':product.id})}}" method="get">
 					<div class="d-flex">
-						<input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem"/>
-						<button class="btn btn-outline-dark flex-shrink-0" type="button">
+						<input class="form-control text-center me-3"name="quantity" id="inputQuantity" type="num" value="" style="max-width: 3rem"/>
+						<button class="btn btn-outline-dark flex-shrink-0" type="submit">
 							<i class="bi-cart-fill me-1"></i>
 							Add to cart
 						</button>
 					</div>
+					</form>
 				</div>
 			</div>
 		</div>

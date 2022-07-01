@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Form\CartType;
+use App\Form\CategoryType;
 use App\Repository\ProductRepository;
 use App\Service\Cart\CartService;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,7 @@ class CartController extends AbstractController
                 'quantity' => $quantity
             ];
         }
+        // dd($cartData);
 
         $total = 0;
         foreach ($cartData as $cartItem) {
@@ -40,13 +43,15 @@ class CartController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'add')]
-    public function addToCart($id, SessionInterface $session){
+    public function addToCart($id, SessionInterface $session, Request $request){
+        
+        $quantity = $request->get('quantity');
 
         $cart = $session->get('cart', []);
         if(!empty($cart[$id])){
-            $cart[$id]++;
+            $cart[$id] += $quantity;
         }else{
-            $cart[$id] = 1;
+                $cart[$id] = $quantity;
         }
         $session->set('cart', $cart);
 
