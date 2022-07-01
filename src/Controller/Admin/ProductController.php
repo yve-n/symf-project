@@ -2,17 +2,19 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use Symfony\Component\Process\Process;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Process\Process;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/admin/product', name: 'admin_product_')]
 class ProductController extends AbstractController
@@ -30,13 +32,27 @@ class ProductController extends AbstractController
     }
 
     #[Route('/add', name: 'add')]
-    public function addProduct(Request $request , EntityManagerInterface $entityManager){
+    public function addProduct(Request $request , EntityManagerInterface $entityManager,  SluggerInterface $slugger){
 
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $files = $form->get('images')->getData();
+
+            if($files){
+                foreach ($files as $file) {
+                    $directory = $this->getParameter('images_directory');
+                    $fileName = md5(uniqid().'.'.$file->guessExtension());
+                    $file->move($directory,$fileName);
+                    
+                    $image = new Image();
+                    $image->setName($fileName);
+                    $product->addImage($image);
+                }
+            }
             $product->setSlug($this->slugger->slug($product->getName())->lower());
             $entityManager->persist($product);
             $entityManager->flush();

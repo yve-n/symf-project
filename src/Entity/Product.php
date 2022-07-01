@@ -35,7 +35,7 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, orphanRemoval: true , cascade:['persist'])]
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: OrderDetail::class)]

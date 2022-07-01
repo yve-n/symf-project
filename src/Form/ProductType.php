@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductType extends AbstractType
@@ -57,7 +58,13 @@ class ProductType extends AbstractType
                 'label' => 'category',
                 'class' => Category::class,
                 'choice_label' => 'name',
-            ])          
+            ]) 
+            ->add('images', FileType::class,[
+                'label' => 'Select Image',
+                'required' => false,
+                'multiple' => true,
+                'mapped' => false,
+            ])         
         ;
     }
 
