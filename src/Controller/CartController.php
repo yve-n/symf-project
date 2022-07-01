@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
+use App\Service\Cart\CartService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +17,6 @@ class CartController extends AbstractController
     public function index( SessionInterface $session, ProductRepository $productRepository): Response
     {
         $cart = $session->get('cart', []);
-
         $cartData = [];
 
         foreach ($cart as $id => $quantity) {
@@ -31,36 +31,61 @@ class CartController extends AbstractController
             $totalItem = $cartItem['product']->getPrice() * $cartItem['quantity'];
             $total += $totalItem;
         }
-        // dd($cartData);
 
         return $this->render('cart/index.html.twig', [
             'controller_name' => 'CartController',
             'items' => $cartData,
-            'total' => $total
+            'total' => $total,
         ]);
     }
+
     #[Route('/add/{id}', name: 'add')]
     public function addToCart($id, SessionInterface $session){
-        $cart = $session->get('cart', []);
 
+        $cart = $session->get('cart', []);
         if(!empty($cart[$id])){
             $cart[$id]++;
         }else{
             $cart[$id] = 1;
         }
         $session->set('cart', $cart);
+
         return $this->redirectToRoute('app_cart_index');
     }
 
     #[Route('/remove/{id}', name: 'remove')]
-    public function removeFromCart($id, SessionInterface $session){
-        $cart = $session->get('cart', []);
+    public function removeFromCart($id,SessionInterface $session){
 
+        $cart = $session->get('cart', []);
+        if(!empty($cart[$id])){
+            if( $cart[$id] > 1){
+                $cart[$id]--;
+            }
+        }else{       
+            unset($cart[$id]);
+        }
+        $session->set('cart', $cart);
+        return $this->redirectToRoute('app_cart_index');
+    }
+
+    #[Route('/delete/{id}', name: 'deleteItem')]
+    public function deleteFromCart($id,SessionInterface $session){
+
+        $cart = $session->get('cart', []);
         if(!empty($cart[$id])){
             unset($cart[$id]);
         }
         $session->set('cart', $cart);
         return $this->redirectToRoute('app_cart_index');
-
     }
+
+    #[Route('/delete', name: 'delete')]
+    public function deleteCart($id,SessionInterface $session){
+
+        $cart = $session->get('cart', []);
+        $session->remove('cart', $cart);
+        return $this->redirectToRoute('app_cart_index');
+    }
+
+
 }
